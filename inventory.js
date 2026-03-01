@@ -1,5 +1,5 @@
 const Inventory = {
-    // Estos son los productos que aparecerán SOLOS al cargar la app
+    // Estos productos aparecerán automáticamente
     defaultProducts: [
         { id: 1, name: "YaraVila Amidas (Fertilizante)", price: 1250, img: "🌱" },
         { id: 2, name: "Semilla Maíz Pioneer (Bolsa)", price: 3400, img: "🌽" },
@@ -7,7 +7,7 @@ const Inventory = {
         { id: 4, name: "Dron de Fumigación T40", price: 15500, img: "🛸" }
     ],
     getAll() {
-        // Recupera productos creados por el usuario y los combina con los de fábrica
+        // Esta línea une los productos de fábrica con los que tú registres
         const custom = JSON.parse(localStorage.getItem('agro_market')) || [];
         return [...this.defaultProducts, ...custom];
     },
@@ -15,5 +15,10 @@ const Inventory = {
         const products = JSON.parse(localStorage.getItem('agro_market')) || [];
         products.push({ id: Date.now(), name, price: parseFloat(price), img: "📦" });
         localStorage.setItem('agro_market', JSON.stringify(products));
+    },
+    remove(id) {
+        const products = JSON.parse(localStorage.getItem('agro_market')) || [];
+        const updated = products.filter(p => p.id !== id);
+        localStorage.setItem('agro_market', JSON.stringify(updated));
     }
 };
