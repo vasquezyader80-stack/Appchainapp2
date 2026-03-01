@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>AgroChain | Sistema Automatizado</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">🚜 AgroChain 2026</div>
+        <div class="user-status">
+            <span id="display-name">---</span> | <span id="display-cacaos">0</span> 🍫 Cacaos
+        </div>
+    </header>
+    <div class="container">
+        <section class="card">
+            <h3>⚙️ Configuración</h3>
+            <input type="text" id="input-name" placeholder="Nombre de la Finca">
+            <input type="number" id="input-cacaos" placeholder="Saldo inicial Cacaos">
+            <button onclick="app.initUser()">Guardar Configuración</button>
+        </section>
+        <section class="card">
+            <h3>📦 Registrar Producto</h3>
+            <input type="text" id="p-name" placeholder="Producto">
+            <input type="number" id="p-price" placeholder="Precio en Cacaos">
+            <button onclick="app.registerProduct()">Publicar</button>
+        </section>
+        <section class="card">
+            <h3>🛒 Mercado</h3>
+            <div id="market-grid" class="grid"></div>
+        </section>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/sensors.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
