@@ -26,10 +26,11 @@ const app = {
             user.cacaos -= price;
             Auth.save(user.name, user.cacaos);
             Inventory.remove(id);
-            this.addHistory(`🛒 Compraste: ${name} por ${price} Cacaos`);
+            this.addHistory(`🛒 COMPRA EXITOSA: ${name} (-${price} Cacaos)`);
             this.updateUI();
         } else {
-            alert("❌ Saldo insuficiente de Cacaos");
+            this.addHistory(`⚠️ ALERTA: Intento de compra fallido por saldo insuficiente.`);
+            alert(`🚫 Fondos Insuficientes: Necesitas ${price} Cacaos, pero solo tienes ${user.cacaos}.`);
         }
     },
     addHistory(msg) {
@@ -51,10 +52,10 @@ const app = {
         market.innerHTML = '';
         Inventory.getAll().forEach(p => {
             market.innerHTML += `
-                <div class="card" style="border-left: 5px solid #2ecc71; margin-bottom: 10px;">
+                <div class="card" style="border-left: 5px solid #2ecc71; margin-bottom: 10px; padding: 15px;">
                     <h4>${p.name}</h4>
                     <p>Precio: 💰 ${p.price} Cacaos</p>
-                    <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" style="background: #27ae60;">Comprar Ahora</button>
+                    <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" style="background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Comprar Ahora</button>
                 </div>
             `;
         });
