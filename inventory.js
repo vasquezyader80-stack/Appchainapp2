@@ -1,10 +1,9 @@
 const Inventory = {
-    // Catálogo base con productos reales e iconos
     defaultProducts: [
         { id: 1, name: "YaraVila Amidas (Fertilizante)", price: 1250, img: "🌱" },
         { id: 2, name: "Semilla Maíz Pioneer (Bolsa)", price: 3400, img: "🌽" },
         { id: 3, name: "Bomba de Riego Solar", price: 8900, img: "☀️" },
-        { id: 4, name: "Machete de Acero Pro", price: 450, img: "🗡️" }
+        { id: 4, name: "Dron de Fumigación T40", price: 15500, img: "🛸" }
     ],
     getAll() {
         const custom = JSON.parse(localStorage.getItem('agro_market')) || [];
