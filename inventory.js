@@ -1,12 +1,13 @@
 const Inventory = {
-    // Estos productos son los que aparecen sin que tú hagas nada
+    // Productos precargados para que el mercado nunca esté vacío
     defaultProducts: [
-        { id: 1, name: "YaraVila Amidas", price: 1250, img: "🌱" },
-        { id: 2, name: "Semilla Maíz Pioneer", price: 3400, img: "🌽" },
+        { id: 1, name: "Fertilizante YaraVila", price: 1250, img: "🌱" },
+        { id: 2, name: "Semilla de Maíz Pioneer", price: 3400, img: "🌽" },
         { id: 3, name: "Bomba de Riego Solar", price: 8900, img: "☀️" },
-        { id: 4, name: "Dron de Fumigación T40", price: 15500, img: "🛸" }
+        { id: 4, name: "Dron Fumigador T40", price: 15500, img: "🛸" }
     ],
     getAll() {
+        // Combinamos los de fábrica con cualquier otro que registres manualmente
         const custom = JSON.parse(localStorage.getItem('agro_market')) || [];
         return [...this.defaultProducts, ...custom];
     },
@@ -16,3 +17,4 @@ const Inventory = {
         localStorage.setItem('agro_market', JSON.stringify(updated));
     }
 };
+  
