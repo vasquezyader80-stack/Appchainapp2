@@ -1,6 +1,6 @@
 # 🚜 AgroChain v1.0 - Sistema Agroindustrial Automatizado
 
-Bienvenido a **AgroChain**, una plataforma diseñada para la gestión inteligente de cultivos y comercialización agrícola mediante una economía propia basada en **Cacaos**.
+Bienvenido a **AgroChain**, una plataforma diseñada para la gestión inteligente de cultivos y comercialización agrícola mediante una economía propia basada en **Cordobad**.
 
 ## 🌟 Características Principales
 * **Persistencia de Datos**: El nombre del usuario y su saldo de **Cacaos** se guardan en el navegador (`LocalStorage`), por lo que no se pierden al cerrar la página.
