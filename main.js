@@ -4,19 +4,10 @@ const app = {
     },
     initUser() {
         const name = document.getElementById('input-name').value;
-        const cacaos = document.getElementById('input-cacaos').value;
-        if(name && cacaos) {
-            Auth.save(name, cacaos);
-            this.addHistory(`✅ Finca "${name}" configurada con ${cacaos} Cacaos.`);
-            this.updateUI();
-        }
-    },
-    registerProduct() {
-        const n = document.getElementById('p-name').value;
-        const p = document.getElementById('p-price').value;
-        if(n && p) {
-            Inventory.add(n, p);
-            this.addHistory(`📦 Producto publicado: ${n} (${p} Cacaos)`);
+        const saldo = document.getElementById('input-cacaos').value;
+        if(name && saldo) {
+            Auth.save(name, saldo);
+            this.addHistory(`✅ Usuario ${name} registrado. Saldo: $${saldo}`);
             this.updateUI();
         }
     },
@@ -25,21 +16,22 @@ const app = {
         if(user.cacaos >= price) {
             user.cacaos -= price;
             Auth.save(user.name, user.cacaos);
-            Inventory.remove(id);
-            this.addHistory(`🛒 COMPRA EXITOSA: ${name} (-${price} Cacaos)`);
+            
+            // Lógica de Delivery 2027
+            const tiempoEntrega = Math.floor(Math.random() * 5) + 1; 
+            alert(`🚀 ¡Compra Exitosa!\nProducto: ${name}\n💰 Costo: $${price}\n🚚 Servicio a domicilio activado. Llega en ${tiempoEntrega} días a tu finca.`);
+            
+            this.addHistory(`🛒 COMPRA: ${name} (-$${price}). Envío en camino.`);
             this.updateUI();
         } else {
-            this.addHistory(`⚠️ ALERTA: Intento de compra fallido por saldo insuficiente.`);
-            alert(`🚫 Fondos Insuficientes: Necesitas ${price} Cacaos, pero solo tienes ${user.cacaos}.`);
+            alert("❌ Saldo insuficiente en tu cuenta nacional.");
         }
     },
     addHistory(msg) {
         const log = document.getElementById('history-log');
         if(log) {
             const entry = document.createElement('li');
-            entry.style.borderBottom = "1px solid #eee";
-            entry.style.padding = "5px 0";
-            entry.innerHTML = `<small>${new Date().toLocaleTimeString()}</small> | ${msg}`;
+            entry.innerHTML = `📌 ${msg}`;
             log.prepend(entry);
         }
     },
@@ -52,14 +44,17 @@ const app = {
         market.innerHTML = '';
         Inventory.getAll().forEach(p => {
             market.innerHTML += `
-                <div class="card" style="border-left: 5px solid #2ecc71; margin-bottom: 10px; padding: 15px;">
+                <div class="card" style="text-align:center; border-top: 4px solid #27ae60;">
+                    <div style="font-size: 3rem;">${p.img}</div>
                     <h4>${p.name}</h4>
-                    <p>Precio: 💰 ${p.price} Cacaos</p>
-                    <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" style="background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Comprar Ahora</button>
+                    <p style="font-weight:bold; color:#2c3e50;">Precio: $${p.price}</p>
+                    <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" 
+                            style="background:#27ae60; width:100%; padding:10px; border-radius:5px; color:white; border:none;">
+                        Pedir a Domicilio
+                    </button>
                 </div>
             `;
         });
     }
 };
-
 window.onload = () => app.init();
