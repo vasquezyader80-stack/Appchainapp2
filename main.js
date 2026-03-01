@@ -1,15 +1,12 @@
 const app = {
-    init() {
-        this.updateUI();
-    },
+    init() { this.updateUI(); },
     initUser() {
         const name = document.getElementById('input-name').value;
         const saldo = document.getElementById('input-cacaos').value;
         if(name && saldo) {
             Auth.save(name, saldo);
-            // Esto limpia cualquier error previo y dibuja todo de nuevo
-            this.updateUI();
-            alert("✅ Cuenta Activada. Bienvenido al Mercado Agroindustrial.");
+            this.updateUI(); // Esto fuerza a dibujar el mercado
+            alert("🚀 Sistema Agroindustrial Activado");
         }
     },
     buyProduct(id, price, name) {
@@ -17,14 +14,11 @@ const app = {
         if(user.cacaos >= price) {
             user.cacaos -= price;
             Auth.save(user.name, user.cacaos);
-            
-            // Simulador de Entrega 2027
             const dias = Math.floor(Math.random() * 3) + 1;
-            alert(`🚀 ¡PEDIDO CONFIRMADO!\n\nProducto: ${name}\n🚚 El servicio a domicilio llegará a tu finca en ${dias} días.\n💰 Saldo restante: $${user.cacaos}`);
-            
+            alert(`📦 COMPRA EXITOSA\n\nProducto: ${name}\n🚚 Entrega a domicilio en: ${dias} días.`);
             this.updateUI();
         } else {
-            alert("❌ Saldo insuficiente para completar la compra y el envío.");
+            alert("❌ Saldo insuficiente en moneda nacional.");
         }
     },
     updateUI() {
@@ -34,19 +28,18 @@ const app = {
 
         const market = document.getElementById('market-grid');
         if(market) {
-            market.innerHTML = ''; // Limpia el mercado antes de dibujar
+            market.innerHTML = ''; // Limpiamos para evitar duplicados
             Inventory.getAll().forEach(p => {
                 market.innerHTML += `
-                    <div class="card" style="text-align:center; border-top: 4px solid #27ae60; margin:10px; padding:15px;">
-                        <div style="font-size: 3rem;">${p.img}</div>
-                        <h4>${p.name}</h4>
-                        <p style="font-weight:bold; color:#2c3e50;">$${p.price}</p>
+                    <div class="card" style="text-align:center; margin:10px; padding:20px; border-top: 4px solid #27ae60;">
+                        <div style="font-size: 3.5rem;">${p.img}</div>
+                        <h4 style="margin:10px 0;">${p.name}</h4>
+                        <p style="font-size:1.2rem; font-weight:bold; color:#2c3e50;">$${p.price}</p>
                         <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" 
-                                style="background:#27ae60; color:white; border:none; padding:10px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold;">
+                                style="background:#27ae60; color:white; border:none; width:100%; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold;">
                             Pedir a Domicilio
                         </button>
-                    </div>
-                `;
+                    </div>`;
             });
         }
     }
