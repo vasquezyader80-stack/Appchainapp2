@@ -7,7 +7,7 @@ const app = {
         const saldo = document.getElementById('input-cacaos').value;
         if(name && saldo) {
             Auth.save(name, saldo);
-            this.addHistory(`✅ Usuario ${name} registrado. Saldo: $${saldo}`);
+            this.addHistory(`✅ Usuario ${name} registrado. Saldo inicial: $${saldo}`);
             this.updateUI();
         }
     },
@@ -16,45 +16,46 @@ const app = {
         if(user.cacaos >= price) {
             user.cacaos -= price;
             Auth.save(user.name, user.cacaos);
-            
-            // Lógica de Delivery 2027
-            const tiempoEntrega = Math.floor(Math.random() * 5) + 1; 
-            alert(`🚀 ¡Compra Exitosa!\nProducto: ${name}\n💰 Costo: $${price}\n🚚 Servicio a domicilio activado. Llega en ${tiempoEntrega} días a tu finca.`);
-            
-            this.addHistory(`🛒 COMPRA: ${name} (-$${price}). Envío en camino.`);
+            const dias = Math.floor(Math.random() * 3) + 1;
+            alert(`🚀 ¡PEDIDO EN CAMINO!\nProducto: ${name}\n💰 Pagado: $${price}\n🚚 Entrega en: ${dias} días hábiles.`);
+            this.addHistory(`🛒 COMPRA: ${name} (-$${price}). Envío programado.`);
             this.updateUI();
         } else {
-            alert("❌ Saldo insuficiente en tu cuenta nacional.");
+            alert("❌ Saldo insuficiente en moneda nacional.");
         }
     },
     addHistory(msg) {
         const log = document.getElementById('history-log');
         if(log) {
             const entry = document.createElement('li');
-            entry.innerHTML = `📌 ${msg}`;
+            entry.style.padding = "8px";
+            entry.style.borderBottom = "1px solid #eee";
+            entry.innerHTML = `📌 <small>${new Date().toLocaleTimeString()}</small> - ${msg}`;
             log.prepend(entry);
         }
     },
     updateUI() {
         const user = Auth.get();
-        document.getElementById('display-name').innerText = user.name;
-        document.getElementById('display-cacaos').innerText = user.cacaos;
+        document.getElementById('display-name').innerText = user.name || "Invitado";
+        document.getElementById('display-cacaos').innerText = user.cacaos || "0";
 
         const market = document.getElementById('market-grid');
-        market.innerHTML = '';
-        Inventory.getAll().forEach(p => {
-            market.innerHTML += `
-                <div class="card" style="text-align:center; border-top: 4px solid #27ae60;">
-                    <div style="font-size: 3rem;">${p.img}</div>
-                    <h4>${p.name}</h4>
-                    <p style="font-weight:bold; color:#2c3e50;">Precio: $${p.price}</p>
-                    <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" 
-                            style="background:#27ae60; width:100%; padding:10px; border-radius:5px; color:white; border:none;">
-                        Pedir a Domicilio
-                    </button>
-                </div>
-            `;
-        });
+        if(market) {
+            market.innerHTML = '';
+            Inventory.getAll().forEach(p => {
+                market.innerHTML += `
+                    <div class="card" style="text-align:center; border-top: 4px solid #27ae60; padding:15px; margin:10px;">
+                        <div style="font-size: 3rem; margin-bottom:10px;">${p.img}</div>
+                        <h4 style="margin:5px 0;">${p.name}</h4>
+                        <p style="font-weight:bold; color:#2c3e50; font-size:1.2rem;">$${p.price}</p>
+                        <button onclick="app.buyProduct(${p.id}, ${p.price}, '${p.name}')" 
+                                style="background:#27ae60; width:100%; padding:12px; border-radius:8px; color:white; border:none; font-weight:bold; cursor:pointer;">
+                            Pedir a Domicilio
+                        </button>
+                    </div>
+                `;
+            });
+        }
     }
 };
 window.onload = () => app.init();
